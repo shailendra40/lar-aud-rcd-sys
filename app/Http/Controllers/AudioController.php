@@ -26,7 +26,7 @@ class AudioController extends Controller
 
         $audio = $request->file('audio');
         $audioName = time().'.'.$audio->extension();
-        $audioBlob->getClientOriginalExtension();
+        // $audioBlob->getClientOriginalExtension();
         $audioPath = $audio->storeAs('audio', $audioName, 'public');
 
         // Save to database
