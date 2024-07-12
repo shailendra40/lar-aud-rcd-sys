@@ -40,6 +40,10 @@
                     mediaRecorder.start();
                     document.getElementById('startRecording').style.display = 'none';
                     document.getElementById('stopRecording').style.display = 'inline-block';
+                })
+                .catch(err => {
+                    console.error('Error accessing microphone:', err);
+                    alert('Please allow microphone access to use this feature.');
                 });
         };
 
