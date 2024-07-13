@@ -513,6 +513,7 @@ class ComposerStaticInit7e8c3c14ff33b199b4a0838993eb8423
         'AVCSequenceParameterSetReader' => __DIR__ . '/..' . '/james-heinrich/getid3/getid3/module.audio-video.flv.php',
         'App\\Http\\Controllers\\AudioController' => __DIR__ . '/../..' . '/app/Http/Controllers/AudioController.php',
         'App\\Http\\Controllers\\Controller' => __DIR__ . '/../..' . '/app/Http/Controllers/Controller.php',
+        'App\\Models\\Aud' => __DIR__ . '/../..' . '/app/Models/Aud.php',
         'App\\Models\\User' => __DIR__ . '/../..' . '/app/Models/User.php',
         'App\\Providers\\AppServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AppServiceProvider.php',
         'Attribute' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/Attribute.php',

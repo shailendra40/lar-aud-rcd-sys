@@ -11,6 +11,7 @@ return array(
     'AVCSequenceParameterSetReader' => $vendorDir . '/james-heinrich/getid3/getid3/module.audio-video.flv.php',
     'App\\Http\\Controllers\\AudioController' => $baseDir . '/app/Http/Controllers/AudioController.php',
     'App\\Http\\Controllers\\Controller' => $baseDir . '/app/Http/Controllers/Controller.php',
+    'App\\Models\\Aud' => $baseDir . '/app/Models/Aud.php',
     'App\\Models\\User' => $baseDir . '/app/Models/User.php',
     'App\\Providers\\AppServiceProvider' => $baseDir . '/app/Providers/AppServiceProvider.php',
     'Attribute' => $vendorDir . '/symfony/polyfill-php80/Resources/stubs/Attribute.php',
