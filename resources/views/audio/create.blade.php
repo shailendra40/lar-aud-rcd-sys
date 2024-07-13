@@ -252,9 +252,13 @@
             document.getElementById('timestamp').textContent = "00:00";
             mediaRecorder.onstop = () => {
                 const audioBlob = new Blob(recordedChunks, { type: 'audio/webm' });
+                const audioBlobURL = URL.createObjectURL(audioBlob);
+
                 document.getElementById('audioBlob').value = audioBlob;
                 document.getElementById('uploadButton').style.display = 'inline-block';
                 document.getElementById('stopRecording').style.display = 'none';
+
+                console.log(audioBlobURL);
             };
         };
 
