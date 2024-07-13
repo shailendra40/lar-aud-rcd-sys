@@ -41,6 +41,8 @@
 
 
 
+// app/Http/Controllers/AudioController.php
+
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
@@ -55,34 +57,29 @@ class AudioController extends Controller
 
     public function index()
     {
-        // Retrieve all audio files from database
         $audios = Aud::all();
-
         return view('audio.index', compact('audios'));
     }
 
     public function upload(Request $request)
     {
         $request->validate([
-            // 'audio' => 'required|mimes:mp3,wav',
-            'audio' => 'required|mimes:mp3,wav|max:30720', // 30MB maximum size for audio file
+            'audio' => 'required|mimes:mp3,wav,aac,flac,webm|max:60720', // Adjust max size as needed
         ]);
 
-        // $audio = $request->file('audio');
-        // $audioName = time().'.'.$audio->extension();
-        // // $audioBlob->getClientOriginalExtension();
-        // $audioPath = $audio->storeAs('audio', $audioName, 'public');
+        if ($request->hasFile('audio')) {
+            $audio = $request->file('audio');
+            $audioName = time().'.'.$audio->getClientOriginalExtension();
+            $audioPath = $audio->storeAs('audio', $audioName, 'public');
 
-        $audio = $request->file('audio');
-        $audioName = time().'.'.$audio->getClientOriginalExtension();
-        $audioPath = $audio->storeAs('audio', $audioName, 'public');
+            Aud::create([
+                'file_name' => $audioName,
+                'file_path' => $audioPath,
+            ]);
 
-        // Save to database
-        Aud::create([
-            'file_name' => $audioName,
-            'file_path' => $audioPath,
-        ]);
+            return back()->with('success', 'Audio uploaded successfully.')->with('audio', $audioName);
+        }
 
-        return back()->with('success', 'Audio uploaded successfully.')->with('audio', $audioName);
+        return back()->with('error', 'File upload failed.');
     }
 }

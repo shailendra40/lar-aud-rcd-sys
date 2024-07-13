@@ -138,7 +138,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Audio Recording Form</title>
+    <title>Audio Recording and Upload</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -252,13 +252,35 @@
             document.getElementById('timestamp').textContent = "00:00";
             mediaRecorder.onstop = () => {
                 const audioBlob = new Blob(recordedChunks, { type: 'audio/webm' });
-                const audioBlobURL = URL.createObjectURL(audioBlob);
+                // const audioBlobURL = URL.createObjectURL(audioBlob);
+                const formData = new FormData();
+                formData.append('audio', audioBlob, 'recorded_audio.webm');
 
-                document.getElementById('audioBlob').value = audioBlob;
+                fetch('{{ route('audio.upload') }}', {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert('Audio uploaded successfully.');
+                    } else {
+                        alert('Audio upload failed.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Audio upload failed.');
+                });
+
+                // document.getElementById('audioBlob').value = audioBlob;
                 document.getElementById('uploadButton').style.display = 'inline-block';
                 document.getElementById('stopRecording').style.display = 'none';
 
-                console.log(audioBlobURL);
+                // console.log(audioBlobURL);
             };
         };
 
