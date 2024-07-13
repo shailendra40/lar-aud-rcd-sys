@@ -271,10 +271,10 @@
                         alert('Audio upload failed.');
                     }
                 })
-                .catch(error => {
-                    console.error('Error:', error);
-                    alert('Audio upload failed.');
-                });
+                // .catch(error => {
+                //     console.error('Error:', error);
+                //     alert('Audio upload failed.');
+                // });
 
                 // document.getElementById('audioBlob').value = audioBlob;
                 document.getElementById('uploadButton').style.display = 'inline-block';
