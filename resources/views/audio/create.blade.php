@@ -200,6 +200,12 @@
         #uploadButton:hover {
             background-color: #0069d9;
         }
+
+        #timestamp {
+            font-size: 16px;
+            color: #555;
+            margin-top: 10px;
+        }
     </style>
 </head>
 <body>
@@ -212,11 +218,14 @@
             <input type="hidden" name="audio" id="audioBlob">
             <button type="submit" id="uploadButton">Upload Audio</button>
         </form>
+        <div id="timestamp">00:00</div>
     </div>
 
     <script>
         let mediaRecorder;
         let recordedChunks = [];
+        let startTime;
+        let timerInterval;
 
         const startRecording = () => {
             navigator.mediaDevices.getUserMedia({ audio: true })
@@ -226,6 +235,8 @@
                         recordedChunks.push(event.data);
                     };
                     mediaRecorder.start();
+                    startTime = new Date();
+                    timerInterval = setInterval(updateTimestamp, 1000);
                     document.getElementById('startRecording').style.display = 'none';
                     document.getElementById('stopRecording').style.display = 'inline-block';
                 })
@@ -237,6 +248,8 @@
 
         const stopRecording = () => {
             mediaRecorder.stop();
+            clearInterval(timerInterval);
+            document.getElementById('timestamp').textContent = "00:00";
             mediaRecorder.onstop = () => {
                 const audioBlob = new Blob(recordedChunks, { type: 'audio/webm' });
                 const audioBlobURL = URL.createObjectURL(audioBlob);
@@ -247,6 +260,14 @@
 
                 console.log(audioBlobURL);
             };
+        };
+
+        const updateTimestamp = () => {
+            const now = new Date();
+            const elapsedTime = new Date(now - startTime);
+            const minutes = String(elapsedTime.getUTCMinutes()).padStart(2, '0');
+            const seconds = String(elapsedTime.getUTCSeconds()).padStart(2, '0');
+            document.getElementById('timestamp').textContent = `${minutes}:${seconds}`;
         };
 
         document.getElementById('startRecording').addEventListener('click', startRecording);

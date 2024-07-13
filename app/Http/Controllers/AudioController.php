@@ -68,9 +68,13 @@ class AudioController extends Controller
             'audio' => 'required|mimes:mp3,wav|max:30720', // 30MB maximum size for audio file
         ]);
 
+        // $audio = $request->file('audio');
+        // $audioName = time().'.'.$audio->extension();
+        // // $audioBlob->getClientOriginalExtension();
+        // $audioPath = $audio->storeAs('audio', $audioName, 'public');
+
         $audio = $request->file('audio');
-        $audioName = time().'.'.$audio->extension();
-        // $audioBlob->getClientOriginalExtension();
+        $audioName = time().'.'.$audio->getClientOriginalExtension();
         $audioPath = $audio->storeAs('audio', $audioName, 'public');
 
         // Save to database
