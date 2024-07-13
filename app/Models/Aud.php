@@ -9,7 +9,5 @@ class Aud extends Model
 {
     use HasFactory;
 
-    protected $table = 'auds'; // Correct table name
-
-    protected $fillable = ['file_name', 'file_path']; // Fillable attributes
+    protected $fillable = ['file_name', 'file_path'];
 }

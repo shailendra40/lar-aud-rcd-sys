@@ -7,29 +7,46 @@ use App\Models\Aud;
 
 class AudioController extends Controller
 {
+    /**
+     * Display the form for uploading audio.
+     *
+     * @return \Illuminate\View\View
+     */
     public function create()
     {
         return view('audio.create');
     }
 
+    /**
+     * Display a listing of uploaded audios.
+     *
+     * @return \Illuminate\View\View
+     */
     public function index()
     {
-        return view('audio.index');
+        // Retrieve all audio files from database
+        $audios = Aud::all();
+
+        return view('audio.index', compact('audios'));
     }
 
+    /**
+     * Handle audio file upload.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function upload(Request $request)
     {
         $request->validate([
-            // 'audio' => 'required|mimes:mp3,wav',
-            'audio' => 'required|mimes:mp3,wav|max:30720', // 30MB maximum size for audio file
+            'audio' => 'required|mimes:mp3,wav|max:30720', // Max 30MB for mp3 or wav files
         ]);
 
         $audio = $request->file('audio');
-        $audioName = time().'.'.$audio->extension();
-        // $audioBlob->getClientOriginalExtension();
-        $audioPath = $audio->storeAs('audio', $audioName, 'public');
+        $audioName = time().'.'.$audio->getClientOriginalExtension(); // Unique filename based on timestamp and original extension
+        $audioPath = $audio->storeAs('public/audio', $audioName); // Store audio in /storage/app/public/audio directory
 
-        // Save to database
+        // Save audio file details to database
         Aud::create([
             'file_name' => $audioName,
             'file_path' => $audioPath,
